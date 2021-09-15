@@ -1,12 +1,8 @@
 import React from 'react';
 import { withTaskContext, } from '@twilio/flex-ui';
-import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Checkbox from '@material-ui/core/Checkbox';
-import { withStyles } from '@material-ui/core/styles';
-import CheckCircleIcon from '@material-ui/icons/CheckCircle';
-import axios from 'axios'
+import PayClient from './payClient';
+
 
 const overlayStyle = {
     container: {
