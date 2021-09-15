@@ -14,7 +14,7 @@ const overlayStyle = {
         flexDirection: "column",
         paddingTop: "5vh",
         paddingLeft: "25px",
-        // justifyContent: "space-between",
+        justifyContent: "space-around",
         alignContent: "center",
         minWidth: "350px",
         maxWdith: "350px",      
@@ -95,7 +95,6 @@ class PayComponent extends React.Component {
                     label="Token"
                     style={{ margin: 8 }}
                     placeholder="awaiting token from server..."
-                    fullWidth
                     margin="normal"
                     InputLabelProps={{
                         shrink: true,
