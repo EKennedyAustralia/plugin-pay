@@ -27,10 +27,16 @@ class PayComponent extends React.Component {
         this.handleChange = this.handleChange.bind(this);
 
         this.state = {
-            card: "",
-            cvc: "",
-            expiry: "",
-            token: ""
+            paymentCardNumber: "",
+            securityCode: "",
+            expirationDate: "",
+            paymentToken: "",
+            callConnected: false,
+            capturing: false,
+            capturingCard: false,
+            capturingCvc: false,
+            capturingDate: false,
+            captureComplete: false,
           }
     }
 
@@ -43,7 +49,7 @@ class PayComponent extends React.Component {
             <div style={overlayStyle.container}>                
                 <TextField
                     variant="outlined"
-                    id="card"
+                    id="paymentCardNumber"
                     label="Card Number"
                     style={{ margin: 8 }}
                     placeholder="e.g. 	
@@ -52,12 +58,12 @@ class PayComponent extends React.Component {
                     InputLabelProps={{
                         shrink: true,
                     }}
-                    value={this.state.card}
+                    value={this.state.paymentCardNumber}
                     onChange={this.handleChange}
                 />
                 <br/>
                 <TextField
-                    id="cvc"
+                    id="securityCode"
                     variant="outlined"
                     label="CVC"
                     style={{ margin: 8 }}
@@ -66,12 +72,12 @@ class PayComponent extends React.Component {
                     InputLabelProps={{
                         shrink: true,
                     }}
-                    value={this.state.cvc}
+                    value={this.state.securityCode}
                     onChange={this.handleChange}
                 />
                 <br/>
                 <TextField
-                    id="expiry"
+                    id="expirationDate"
                     variant="outlined"
                     label="Expiry Date"
                     style={{ margin: 8 }}
@@ -80,11 +86,11 @@ class PayComponent extends React.Component {
                     InputLabelProps={{
                         shrink: true,
                     }}
-                    value={this.state.expiry}
+                    value={this.state.expirationDate}
                     onChange={this.handleChange}
                 />
                 <TextField
-                    id="token"
+                    id="paymentToken"
                     variant="filled"
                     label="Token"
                     style={{ margin: 8 }}
@@ -94,7 +100,7 @@ class PayComponent extends React.Component {
                     InputLabelProps={{
                         shrink: true,
                     }}
-                    value={this.state.token}
+                    value={this.state.paymentToken}
                     onChange={this.handleChange}
                 />
             </div>
