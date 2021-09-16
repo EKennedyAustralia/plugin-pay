@@ -36,6 +36,17 @@ class PayComponent extends React.Component {
           }
     }
 
+    componentDidMount() {
+        // Set the Internal Merchant Server URL for config and Access Tokens
+        let merchantServerUrl = "";
+        let callSid = this.props.task.attributes.call_sid
+        try {
+          PayClient.initialize(merchantServerUrl, this.state, callSid);
+        } catch (error) {
+          console.error(`'Mounted Error: ${error})`);
+        }
+      }
+
     handleChange(event) {
         this.setState({...this.state, [event.target.id]: event.target.value})
     }

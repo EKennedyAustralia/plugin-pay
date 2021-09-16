@@ -52,32 +52,49 @@ const PayClient = {
     async _getConfig(url) {
         // Grab config from the Merchant Server
         try {
-            const config = await axios.get(url);
+
+            // const config = await axios.get(url);
             //console.log(`the config: ${JSON.stringify(config.data, null, 4)}`);
 
             const axios_config = {
                 baseURL:
-                    'https://api.twilio.com/2010-04-01/Accounts/' + config.data.twilioAccountSid, //This allows us to change the rest of the URL
+                    'https://api.twilio.com/2010-04-01/Accounts/' + 'AC75ca6789a296a3f86c54367a0dc5a11a', //This allows us to change the rest of the URL
                 auth: {
                     // Basic Auth using API key
-                    username: config.data.twilioApiKey,
-                    password: config.data.twilioApiSecret
+                    username: 'SKe0b8c9bfef6c8c38cc8277026ea97ffe',
+                    password: 'GcNX2J3tBtt6Ga1M3uuguYllHWPXRH87'
                 },
                 headers: {
                     "Content-Type": "application/x-www-form-urlencoded", // _Required for Twilio API
                 },
                 timeout: 5000,
             };
+
             //console.log('Axios config' + JSON.stringify(axios_config, null, 4));
             // Update Axios and status call back
+            // this._twilioAPI = axios.create(axios_config);
+            // this._statusCallback = config.data.functionsURL + '/paySyncUpdate';
+            // this.payConnector = config.data.payConnector;
+            // this._captureOrderTemplate = config.data.captureOrder.slice(); // copy by value
+            // this.captureOrder = config.data.captureOrder.slice(); // copy by value TODO: Can probably remove this, since CaptureToken sets it anyway
+            // this.currency = config.data.currency;
+            // this.tokenType = config.data.tokenType;
+            // this.identity = config.data.identity;
+
+            //manual hardcoding config - for testing only
+            var captureorder = [
+                                    "payment-card-number",
+                                    "security-code",
+                                    "expiration-date",
+                                ]
             this._twilioAPI = axios.create(axios_config);
-            this._statusCallback = config.data.functionsURL + '/paySyncUpdate';
-            this.payConnector = config.data.payConnector;
-            this._captureOrderTemplate = config.data.captureOrder.slice(); // copy by value
-            this.captureOrder = config.data.captureOrder.slice(); // copy by value TODO: Can probably remove this, since CaptureToken sets it anyway
-            this.currency = config.data.currency;
-            this.tokenType = config.data.tokenType;
-            this.identity = config.data.identity;
+            this._statusCallback = 'https://agent-pay-server-6894-dev.twil.io/paySyncUpdate';
+            this.payConnector = 'Braintree_Connector';
+            this._captureOrderTemplate = captureorder.slice(); // copy by value
+            this.captureOrder = captureorder.slice(); // copy by value TODO: Can probably remove this, since CaptureToken sets it anyway
+            this.currency = 'AUD';
+            this.tokenType = 'reusable';
+            this.identity = 'alice';
 
             try {
                 console.log(`Getting sync-token`);
@@ -135,7 +152,7 @@ const PayClient = {
         this._cardData = cardData;
 
         try {
-            await this._getConfig(merchantServerUrl + "/get-config");
+            // await this._getConfig(merchantServerUrl + "/get-config");
 
             //console.log(`Setting up Sync`);
             this._syncClient = new SyncClient(this._syncToken, {});
