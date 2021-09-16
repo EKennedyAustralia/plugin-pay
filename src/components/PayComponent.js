@@ -38,7 +38,7 @@ class PayComponent extends React.Component {
 
     componentDidMount() {
         // Set the Internal Merchant Server URL for config and Access Tokens
-        let merchantServerUrl = "";
+        let merchantServerUrl = "https://agent-pay-server-3809.twil.io";
         let callSid = this.props.task.attributes.call_sid
         try {
           PayClient.initialize(merchantServerUrl, this.state, callSid);
