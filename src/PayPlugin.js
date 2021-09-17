@@ -1,8 +1,9 @@
 import React from 'react';
 import { VERSION, Tab } from '@twilio/flex-ui';
-import { FlexPlugin } from 'flex-plugin';
 import CreditCardIcon from '@material-ui/icons/CreditCard';
 import PayComponent from './components/PayComponent.js';
+import { FlexPlugin, loadCSS } from 'flex-plugin';
+import DummyCRM from './components/DummyCRM.js'
 
 
 const PLUGIN_NAME = 'PayPlugin';
@@ -21,12 +22,20 @@ export default class PayPlugin extends FlexPlugin {
    */
   init(flex, manager) {
 
+   
     flex.TaskCanvasTabs.Content.add(
       <Tab icon={<CreditCardIcon/>} iconActive={<CreditCardIcon/>} key="pay-tab">
         <PayComponent key="pay-component"/>
       </Tab>
       
     );
+
+    const options = { sortOrder: -1 };
+    flex.AgentDesktopView
+    .Panel2
+    .Content
+    .replace(<DummyCRM key="dummy-crm" />, options);
+
 
     flex.RootContainer.Content.remove("project-switcher")
     
