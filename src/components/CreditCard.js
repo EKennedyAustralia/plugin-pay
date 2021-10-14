@@ -40,16 +40,16 @@ export default class CreditCard extends React.Component {
                     cvc={this.props._cardData.securityCode}
                     expiry={this.props._cardData.expirationDate}
                     focused={this.props._cardData.focused}
-                    name="Mark Hannan"
+                    name="Michael Johnson"
                     preview={true}
-                    issuer={this.props._cardData.issuer}
+                    issuer={this.props._cardData.paymentCardType}
                     number={this.props._cardData.paymentCardNumber}
                     />
                 </div>
                 <TextField
                 style={{maxWidth: "100px", alignSelf: 'center'}} 
                 // variant='outlined'
-                value='$750'
+                value='$18.50'
                 label='Payment Amount'
                 />
             </div>

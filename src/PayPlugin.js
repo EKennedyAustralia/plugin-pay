@@ -30,18 +30,18 @@ export default class PayPlugin extends FlexPlugin {
       
     );
 
-    const options = { sortOrder: -1 };
-    flex.AgentDesktopView
-    .Panel2
-    .Content
-    .replace(<DummyCRM key="dummy-crm" />, options);
+    // const options = { sortOrder: -1 };
+    // flex.AgentDesktopView
+    // .Panel2
+    // .Content
+    // .replace(<DummyCRM key="dummy-crm" />, options);
 
 
-    flex.RootContainer.Content.remove("project-switcher")
+    // flex.RootContainer.Content.remove("project-switcher")
     
-    manager.strings.NoTasks = "PCI Payment Demo"
+    // manager.strings.NoTasks = "PCI Payment Demo"
     
-    flex.AgentDesktopView.defaultProps.splitterOptions = { initialFirstPanelSize: "400px", minimumFirstPanelSize: "400px" }
+    // flex.AgentDesktopView.defaultProps.splitterOptions = { initialFirstPanelSize: "400px", minimumFirstPanelSize: "400px" }
 
   }
 
