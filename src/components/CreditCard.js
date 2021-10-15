@@ -14,7 +14,7 @@ const overlayStyle = {
         justifyContent: "space-around",
         alignContent: "center",
         minWidth: "350px",
-        maxWdith: "350px",      
+        maxWdith: "350px",
     },
     complete: {
         display: "flex",
@@ -25,43 +25,43 @@ const overlayStyle = {
         justifyContent: "center",
         alignContent: "center",
         minWidth: "350px",
-        maxWdith: "350px",      
+        maxWdith: "350px",
     }
 }
- 
+
 export default class CreditCard extends React.Component {
- 
-  render() {
-    if(this.props._cardData.captureComplete == false){  
-        return (
-            <div style={overlayStyle.capture}>
-                <div id="PaymentForm">
-                    <Cards
-                    cvc={this.props._cardData.securityCode}
-                    expiry={this.props._cardData.expirationDate}
-                    focused={this.props._cardData.focused}
-                    name="Michael Johnson"
-                    preview={true}
-                    issuer={this.props._cardData.paymentCardType}
-                    number={this.props._cardData.paymentCardNumber}
+
+    render() {
+        if (this.props.data.captureComplete == false) {
+            return (
+                <div style={overlayStyle.capture}>
+                    <div id="PaymentForm">
+                        <Cards
+                            cvc={this.props.data.cardData.securityCode}
+                            expiry={this.props.data.cardData.expirationDate}
+                            focused={this.props.focused}
+                            name="Michael Johnson"
+                            preview={true}
+                            issuer={this.props.data.cardData.paymentCardType}
+                            number={this.props.data.cardData.paymentCardNumber}
+                        />
+                    </div>
+                    <TextField
+                        style={{ maxWidth: "100px", alignSelf: 'center' }}
+                        // variant='outlined'
+                        value='$18.50'
+                        label='Payment Amount'
                     />
                 </div>
-                <TextField
-                style={{maxWidth: "100px", alignSelf: 'center'}} 
-                // variant='outlined'
-                value='$18.50'
-                label='Payment Amount'
-                />
-            </div>
-        );
-    } else {
-        return (
-            <div style={overlayStyle.complete}>
-                <Checkmark size='128px' color='green' />
-                <h6 style={{color: "green", alignSelf: "center", paddingBottom: '10vh'}}>Payment token: {this.props._cardData.paymentToken}</h6>
-                <h4>Payment Processed</h4>
-            </div>
-        );
+            );
+        } else {
+            return (
+                <div style={overlayStyle.complete}>
+                    <Checkmark size='128px' color='green' />
+                    <h6 style={{ color: "green", alignSelf: "center", paddingBottom: '10vh' }}>Payment token: {this.props.data.cardData.paymentToken}</h6>
+                    <h4>Payment Processed</h4>
+                </div>
+            );
+        }
     }
-  }
 }

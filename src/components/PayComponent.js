@@ -19,56 +19,197 @@ import PayClient from '@deshartman/payclient'
 
 
 class PayComponent extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            paymentCardNumber: "",
-            securityCode: "",
-            expirationDate: "",
-            paymentToken: "",
-            focused: 'name',
-            paymentCardType: "",
-            captureComplete: false
-          }
-    }
+  constructor(props) {
+    super(props);
+    this.payClient = null;
 
-    async componentDidMount() {
-        // Set the Internal Merchant Server URL for config and Access Tokens
-        let merchantServerUrl = "https://agent-pay-server-3809.twil.io";
-        console.log("Eli note:", this.props.task)
-        var callSid = this.props.task.attributes.call_sid
-        try {
-            this.payClient = new PayClient(merchantServerUrl, "Alice", callSid)
-            
-            //subscribe to payClient events 
-            this.payClient.on("callConnected", () => {
-                console.log(`Eli note - callConnected:`);
-              });
+    this.state = {
+      callConnected: false,
+      capturing: false,
+      capturingCard: false,
+      capturingSecurityCode: false,
+      capturingDate: false,
+      captureComplete: false,
+      focused: 'name',
 
-              this.payClient.on("cardUpdate", (data) => {
-                this.setState({...this.state,
-                                paymentCardNumber: data.paymentCardNumber,
-                                securityCode: data.securityCode ,
-                                expirationDate: data.expirationDate,
-                                paymentToken: data.paymentToken,
-                                paymentCardType: data.paymentCardType
-                            })
-                });
-                
-        } catch (error) {
-          console.error(`'Mounted Error: ${error})`);
-        }
-        
-        this.payClient.startCapture();
-
+      cardData: {
+        paymentCardNumber: "",
+        securityCode: "",
+        expirationDate: "",
+        paymentToken: "",
+        paymentCardType: "",
       }
+    }
+  }
 
-      render() {
+  async componentDidMount() {
+    // Set the Internal Merchant Server URL for config and Access Tokens
+    let merchantServerUrl = "https://agent-pay-server-3809.twil.io";
+    console.log("Eli note:", this.props.task)
+    var callSid = this.props.task.attributes.call_sid
+    try {
+      this.payClient = new PayClient(merchantServerUrl, "Alice");
 
-        return (
-            <CreditCard _cardData={this.state}/>
-        )
-    }      
+      //Establish the listeners
+      this.payClient.on("callConnected", () => {
+        this.setState({
+          ...this.state,
+          callConnected: true,
+        });
+
+        console.log(`callConnected: this.state.callConnected ${this.state.callConnected}`);
+      });
+
+      this.payClient.on("capturing", () => {
+        this.setState({
+          ...this.state,
+          capturing: true,
+        });
+
+        console.log(`capturing: this.state.capturing ${this.state.capturing}`);
+      });
+
+      this.payClient.on("capturingCard", () => {
+        this.setState({
+          ...this.state,
+          capturingCard: true,
+          capturingSecurityCode: false,
+          capturingDate: false,
+        });
+
+        console.log(
+          `capturingCard: this.state.capturingCard ${this.state.capturingCard} this.state.capturingSecurityCode ${this.state.capturingSecurityCode} this.state.capturingDate ${this.state.capturingDate}`
+        );
+      });
+
+      this.payClient.on("capturingSecurityCode", () => {
+        this.setState({
+          ...this.state,
+          capturingSecurityCode: true,
+          capturingCard: false,
+          capturingDate: false,
+        });
+
+        console.log(
+          `capturingSecurityCode: this.state.capturingSecurityCode ${this.state.capturingSecurityCode} this.state.capturingCard ${this.state.capturingCard} this.state.capturingDate ${this.state.capturingDate}`
+        );
+      });
+
+      this.payClient.on("capturingDate", () => {
+        this.setState({
+          ...this.state,
+          capturingDate: true,
+          capturingCard: false,
+          capturingSecurityCode: false,
+        });
+
+        console.log(
+          `capturingDate: this.state.capturingDate ${this.state.capturingDate} this.state.capturingCard ${this.state.capturingCard} this.state.capturingSecurityCode ${this.state.capturingSecurityCode} `
+        );
+      });
+
+      this.payClient.on("cardReset", () => {
+        this.setState({
+          ...this.state,
+          capturingCard: true,
+        });
+
+        console.log(`cardReset: this.state.capturingCard ${this.state.capturingCard}`);
+      });
+
+      this.payClient.on("securityCodeReset", () => {
+        this.setState({
+          ...this.state,
+          capturingSecurityCode: true,
+        });
+
+        console.log(
+          `securityCodeReset: this.state.capturingSecurityCode ${this.state.capturingSecurityCode}`
+        );
+      });
+
+      this.payClient.on("dateReset", () => {
+        this.setState({
+          ...this.state,
+          capturingDate: true,
+        });
+
+        console.log(`dateReset: this.state.capturingDate ${this.state.capturingDate}`);
+      });
+
+      this.payClient.on("captureComplete", () => {
+        this.setState({
+          ...this.state,
+          captureComplete: true,
+        });
+
+        console.log(
+          `captureComplete: this.state.captureComplete ${this.state.captureComplete}`
+        );
+      });
+
+      this.payClient.on("cancelledCapture", () => {
+        this.setState({
+          ...this.state,
+          capturing: false,
+          capturingCard: false,
+          capturingSecurityCode: false,
+          capturingDate: false,
+          captureComplete: false,
+        });
+        console.log(
+          `cancelledCapture: this.state.capturing ${this.state.capturing} this.state.capturingCard ${this.state.capturingCard} this.state.capturingSecurityCode ${this.state.capturingSecurityCode} this.state.capturingDate ${this.state.capturingDate} this.state.captureComplete ${this.state.captureComplete}`
+        );
+      });
+
+      this.payClient.on("submitComplete", () => {
+        this.setState({
+          ...this.state,
+          capturing: false,
+          capturingCard: false,
+          capturingSecurityCode: false,
+          capturingDate: false,
+        });
+
+        console.log(
+          `submitComplete: this.state.capturing ${this.state.capturing} this.state.capturingCard ${this.state.capturingCard} this.state.capturingSecurityCode ${this.state.capturingSecurityCode} this.state.capturingDate ${this.state.capturingDate}`
+        );
+      });
+
+      this.payClient.on("cardUpdate", (data) => {
+        if (this.state.captureComplete) {
+          console.log(`cardUpdate: this.state.captureComplete ${this.state.captureComplete}`);
+          this.setState({
+            ...this.state,
+            paymentToken: data.paymentToken,
+            captureComplete: false
+          });
+        } else {
+          this.setState({
+            ...this.state,
+            paymentCardNumber: data.paymentCardNumber,
+            securityCode: data.securityCode,
+            expirationDate: data.expirationDate,
+            paymentCardType: data.paymentCardType
+          });
+        }
+        // console.log(`cardUpdate: this.state.captureComplete ${this.state.captureComplete}`);
+      });
+
+      await this.payClient.attachPay(callSid);
+      await this.payClient.startCapture();
+
+    } catch (error) {
+      console.error(`'Mounted Error: ${error})`);
+    }
+  }
+
+  render() {
+
+    return (
+      <CreditCard data={this.state} />
+    )
+  }
 
 }
 
