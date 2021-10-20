@@ -32,14 +32,14 @@ const overlayStyle = {
 export default class CreditCard extends React.Component {
 
     render() {
-        if (this.props.data.captureComplete == false) {
+        if (this.props.data.cardData.paymentToken == "" || this.props.data.cardData.paymentToken == 'undefined' || this.props.data.cardData.paymentToken == null) {
             return (
                 <div style={overlayStyle.capture}>
                     <div id="PaymentForm">
                         <Cards
                             cvc={this.props.data.cardData.securityCode}
                             expiry={this.props.data.cardData.expirationDate}
-                            focused={this.props.focused}
+                            focused={this.props.data.focused}
                             name="Michael Johnson"
                             preview={true}
                             issuer={this.props.data.cardData.paymentCardType}

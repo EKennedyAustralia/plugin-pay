@@ -85,6 +85,7 @@ class PayComponent extends React.Component {
       this.payClient.on("capturingSecurityCode", () => {
         this.setState({
           ...this.state,
+          focused: "cvc",
           capturingSecurityCode: true,
           capturingCard: false,
           capturingDate: false,
@@ -142,6 +143,7 @@ class PayComponent extends React.Component {
           ...this.state,
           captureComplete: true,
         });
+        this.payClient.submitCapture();
 
         console.log(
           `captureComplete: this.state.captureComplete ${this.state.captureComplete}`
@@ -179,18 +181,24 @@ class PayComponent extends React.Component {
       this.payClient.on("cardUpdate", (data) => {
         if (this.state.captureComplete) {
           console.log(`cardUpdate: this.state.captureComplete ${this.state.captureComplete}`);
+          console.log(data)
           this.setState({
-            ...this.state,
-            paymentToken: data.paymentToken,
+            ...this.state, 
+            cardData: {...this.state.cardData, paymentToken: data.paymentToken },
             captureComplete: false
           });
         } else {
+          console.log(data)
+          var search = 'x';
+          var replaceWith = '*';
+          var modifiedCardNumber = data.paymentCardNumber.split(search).join(replaceWith);
           this.setState({
-            ...this.state,
-            paymentCardNumber: data.paymentCardNumber,
-            securityCode: data.securityCode,
-            expirationDate: data.expirationDate,
-            paymentCardType: data.paymentCardType
+            ...this.state, cardData: {
+              paymentCardNumber: modifiedCardNumber,
+              securityCode: data.securityCode,
+              expirationDate: data.expirationDate,
+              paymentCardType: data.paymentCardType
+            }
           });
         }
         // console.log(`cardUpdate: this.state.captureComplete ${this.state.captureComplete}`);
