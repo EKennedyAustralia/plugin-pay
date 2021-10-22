@@ -1,0 +1,13 @@
+ACCOUNT_SID=ACxxxx
+AUTH_TOKEN=
+
+# Variables for pay
+PAY_CONNECTOR=xxxx
+
+# Sync Token and Merchant server variables:
+API_KEY=SKxxxxx
+API_SECRET=xxxxxxx
+
+# Variables for Sync
+PAY_SYNC_SERVICE_SID=ISxxx
+
