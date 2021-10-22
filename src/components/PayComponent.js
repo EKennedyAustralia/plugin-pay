@@ -10,8 +10,6 @@
  * only!
  * 
  */
-//import twilio from "twilio";
-import SyncClient from "twilio-sync";
 import React from 'react';
 import { withTaskContext, } from '@twilio/flex-ui';
 import CreditCard from "./CreditCard";

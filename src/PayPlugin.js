@@ -2,9 +2,7 @@ import React from 'react';
 import { VERSION, Tab } from '@twilio/flex-ui';
 import CreditCardIcon from '@material-ui/icons/CreditCard';
 import PayComponent from './components/PayComponent.js';
-import { FlexPlugin, loadCSS } from 'flex-plugin';
-import DummyCRM from './components/DummyCRM.js'
-
+import { FlexPlugin } from 'flex-plugin';
 
 const PLUGIN_NAME = 'PayPlugin';
 
@@ -22,12 +20,12 @@ export default class PayPlugin extends FlexPlugin {
    */
   init(flex, manager) {
 
-   
+
     flex.TaskCanvasTabs.Content.add(
-      <Tab icon={<CreditCardIcon/>} iconActive={<CreditCardIcon/>} key="pay-tab">
-        <PayComponent key="pay-component"/>
+      <Tab icon={<CreditCardIcon />} iconActive={<CreditCardIcon />} key="pay-tab">
+        <PayComponent key="pay-component" />
       </Tab>
-      
+
     );
 
     // const options = { sortOrder: -1 };
@@ -38,9 +36,9 @@ export default class PayPlugin extends FlexPlugin {
 
 
     // flex.RootContainer.Content.remove("project-switcher")
-    
+
     // manager.strings.NoTasks = "PCI Payment Demo"
-    
+
     // flex.AgentDesktopView.defaultProps.splitterOptions = { initialFirstPanelSize: "400px", minimumFirstPanelSize: "400px" }
 
   }
