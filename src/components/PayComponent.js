@@ -15,7 +15,7 @@ import SyncClient from "twilio-sync";
 import React from 'react';
 import { withTaskContext, } from '@twilio/flex-ui';
 import CreditCard from "./CreditCard";
-import PayClient from '@deshartman/payclient'
+import PayClient from '../components/AgentAssistPayClient';
 
 
 class PayComponent extends React.Component {
@@ -48,7 +48,10 @@ class PayComponent extends React.Component {
     console.log("Eli note:", this.props.task)
     var callSid = this.props.task.attributes.call_sid
     try {
-      this.payClient = new PayClient(merchantServerUrl, "Alice");
+      this.payClient = new PayClient("Alice");
+
+      await this.payClient.attachPay(merchantServerUrl, callSid);
+      await this.payClient.startCapture();
 
       //Establish the listeners
       this.payClient.on("callConnected", () => {
@@ -183,8 +186,8 @@ class PayComponent extends React.Component {
           console.log(`cardUpdate: this.state.captureComplete ${this.state.captureComplete}`);
           console.log(data)
           this.setState({
-            ...this.state, 
-            cardData: {...this.state.cardData, paymentToken: data.paymentToken },
+            ...this.state,
+            cardData: { ...this.state.cardData, paymentToken: data.paymentToken },
             captureComplete: false
           });
         } else {
@@ -204,8 +207,6 @@ class PayComponent extends React.Component {
         // console.log(`cardUpdate: this.state.captureComplete ${this.state.captureComplete}`);
       });
 
-      await this.payClient.attachPay(callSid);
-      await this.payClient.startCapture();
 
     } catch (error) {
       console.error(`'Mounted Error: ${error})`);
