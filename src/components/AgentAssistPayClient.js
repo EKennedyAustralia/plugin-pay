@@ -2,7 +2,7 @@
 
 // get the reference of EventEmitter class of events module
 import { EventEmitter } from 'events';
-import SyncClient from "twilio-sync";
+import { SyncClient } from "twilio-sync";
 import axios from "axios";
 
 /**
@@ -138,7 +138,7 @@ export default class AgentAssistPayClient extends EventEmitter {
             const config = await axios.get(merchantServerUrl, { params: { identity: this.identity } });
             console.log(`the config: ${JSON.stringify(config.data, null, 4)}`);
 
-            this._functionsURL = config.data._functionsURL
+            this._functionsURL = config.data.functionsURL
             this._statusCallback = config.data.functionsURL + '/paySyncUpdate';
             this._paymentConnector = config.data.paymentConnector;
             this._syncToken = config.data.paySyncToken;
